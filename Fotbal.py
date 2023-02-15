@@ -37,26 +37,34 @@ while True:
             pygame.quit()
             sys.exit()
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_UP] and poz_Y > 0 :
+    if keys[pygame.K_ESCAPE]:
+        pygame.quit()
+        sys.exit()
+    
+    if keys[pygame.K_UP] and poz_Y2 > 0 :
+        poz_Y2 -= rychlost2
+    if keys[pygame.K_DOWN] and poz_Y2 < roz_Y - velikost :
+        poz_Y2 += rychlost2
+    if keys[pygame.K_LEFT] and poz_X2 > 0 :
+        poz_X2 -= rychlost2
+    if keys[pygame.K_RIGHT] and poz_X2 < roz_X - velikost :
+        poz_X2 += rychlost2
+        
+        
+    if keys[pygame.K_w] and poz_Y > 0 :
         poz_Y -= rychlost1
-    if keys[pygame.K_DOWN] and poz_Y < roz_Y - velikost :
+    if keys[pygame.K_s] and poz_Y < roz_Y - velikost :
         poz_Y += rychlost1
-    if keys[pygame.K_LEFT] and poz_X > 0 :
+    if keys[pygame.K_a] and poz_X > 0 :
         poz_X -= rychlost1
-    if keys[pygame.K_RIGHT] and poz_X < roz_X - velikost :
+    if keys[pygame.K_d] and poz_X < roz_X - velikost :
         poz_X += rychlost1
-    if keys[pygame.K_RSHIFT] == True :
-        rychlost1 = 2
-        rychlost1 = 2
-    if keys[pygame.K_RSHIFT] == False :
-        rychlost1 = 1
-        rychlost1 = 1
+     
         
-        
-    if keys[pygame.K_LSHIFT] and boost2 > 0.3:
+    if keys[pygame.K_RSHIFT] and boost2 > 0.3:
         rychlost2 = 2
         boost2 -= 0.3
-    if keys[pygame.K_LSHIFT] == False or boost2 < 0.4 :
+    if keys[pygame.K_RSHIFT] == False or boost2 < 0.4 :
         rychlost2 = 1
         boost2 += 0.1
     if boost2 > 136:
@@ -64,22 +72,23 @@ while True:
 
 
 
-    if keys[pygame.K_RSHIFT] and boost1 > 0.3:
+    if keys[pygame.K_LSHIFT] and boost1 > 0.3:
         rychlost1 = 2
         boost1 -= 0.3
-    if keys[pygame.K_RSHIFT] == False or boost1 < 0.4 :
+    if keys[pygame.K_LSHIFT] == False or boost1 < 0.4 :
         rychlost1 = 1
         boost1 += 0.1
     if boost1 > 136:
         boost1 = 136
     
     okno.fill((192,192,192))
+    okno.blit( Ufo_red, (poz_X2,poz_Y2))
+    okno.blit( Ufo_blue, (poz_X,poz_Y))
     pygame.draw.rect(okno, (0,0,0), (roz_X - 280, roz_Y - 100, 140, 50),2)
     gradientRect( okno, (255, 255, 0), (255, 0, 0), pygame.Rect( roz_X - 278,roz_Y - 98, boost1, 46 ) )
 
     pygame.draw.rect(okno, (0,0,0), (140 ,roz_Y - 100, 140, 50),2)
     gradientRect( okno, (255, 255, 0), (255, 0, 0), pygame.Rect(142,roz_Y - 98, boost2, 46 ) )
     
-    okno.blit( Ufo_blue, (poz_X,poz_Y))
-    okno.blit( Ufo_red, (poz_X2,poz_Y2))
+    
     pygame.display.update()
