@@ -1,10 +1,21 @@
 import pygame
 import random
 import sys
-roz_X = 1500
-roz_Y = 900
+
+
+
+roz_X = 1920
+roz_Y = 1080
 boost1 = 0
 boost2 = 0
+
+Ufo_blue = pygame.image.load("Obrazky/UFO-blue.png")
+Ufo_blue = pygame.transform.scale(Ufo_blue, (100,100))
+Ufo_red = pygame.image.load("Obrazky/Ufo-red.png")
+Ufo_red = pygame.transform.scale(Ufo_red, (100,100))
+
+
+
 pygame.init()
 okno = pygame.display.set_mode((roz_X, roz_Y))
 hodiny = pygame.time.Clock()
@@ -28,7 +39,7 @@ while True:
     if keys[pygame.K_LSHIFT] == False or boost2 < 0.4 :
         rychlost2 = 1
         boost2 += 0.1
-    if boost1 > 136:
+    if boost2 > 136:
         boost2 = 136
 
 
@@ -48,4 +59,7 @@ while True:
 
     pygame.draw.rect(okno, (0,0,0), (140 ,roz_Y - 100, 140, 50),2)
     gradientRect( okno, (255, 255, 0), (255, 0, 0), pygame.Rect(142,roz_Y - 98, boost2, 46 ) )
+    
+    okno.blit( Ufo_blue, (100,100))
+    okno.blit( Ufo_red, (600,100))
     pygame.display.update()
