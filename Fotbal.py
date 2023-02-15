@@ -84,7 +84,7 @@ while True:
      
         
     if keys[pygame.K_RSHIFT] and boost2 > 0.3:
-        rychlost2 = 2
+        rychlost2 = 2.5
         boost2 -= 0.3
     if keys[pygame.K_RSHIFT] == False or boost2 < 0.4 :
         rychlost2 = 1
@@ -95,7 +95,7 @@ while True:
 
 
     if keys[pygame.K_LSHIFT] and boost1 > 0.3:
-        rychlost1 = 2
+        rychlost1 = 2.5
         boost1 -= 0.3
     if keys[pygame.K_LSHIFT] == False or boost1 < 0.4 :
         rychlost1 = 1
@@ -106,8 +106,13 @@ while True:
     okno.fill((192,192,192))
     c1 = circle(okno,(192,192,192),poz_X + velikost / 2,poz_Y + velikost / 2, velikost / 2 )
     c2 = circle(okno,(192,192,192),poz_X2 + velikost/ 2,poz_Y2 + velikost/ 2, velikost / 2)
-    if c1.collidecircle(c2):
-        print("colize")
+    if c1.collidecircle(c2) == True:
+        rychlost1 = 0.01
+        rychlost2 = 0.01
+
+
+
+
 
 
     okno.blit( Ufo_red, (poz_X2,poz_Y2))
@@ -117,10 +122,10 @@ while True:
 
 
     pygame.draw.rect(okno, (0,0,0), (roz_X - 280, roz_Y - 100, 140, 50),2)
-    gradientRect( okno, (255, 255, 0), (255, 0, 0), pygame.Rect( roz_X - 278,roz_Y - 98, boost1, 46 ) )
+    gradientRect( okno, (255, 255, 0), (255, 0, 0), pygame.Rect( roz_X - 278,roz_Y - 98, boost2, 46 ) )
 
     pygame.draw.rect(okno, (0,0,0), (140 ,roz_Y - 100, 140, 50),2)
-    gradientRect( okno, (255, 255, 0), (255, 0, 0), pygame.Rect(142,roz_Y - 98, boost2, 46 ) )
+    gradientRect( okno, (255, 255, 0), (255, 0, 0), pygame.Rect(142,roz_Y - 98, boost1, 46 ) )
     
     
     pygame.display.update()
