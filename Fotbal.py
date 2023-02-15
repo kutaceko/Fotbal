@@ -1,6 +1,8 @@
 import pygame
 import random
 import sys
+import math
+pygame.init()
 roz_X = 1920
 roz_Y = 1080
 velikost = 100
@@ -10,8 +12,28 @@ poz_Y = roz_Y / 2 - 50
 poz_X2 = roz_X / 1.5
 poz_Y2 = roz_Y / 2 - 50
 
+hodiny = pygame.time.Clock()
+
 boost1 = 0
 boost2 = 0
+FPS = 120
+okno = pygame.display.set_mode((roz_X, roz_Y))
+
+class circle:
+    def __init__(self, okno, color, x, y, radius) :
+        self.x = x
+        self.y = y
+        self.radius = radius
+        pygame.draw.circle(okno, color, (x, y), radius)
+    
+    def collidecircle(self, circle):
+        if math.sqrt(pow(circle.x-self.x, 2) + pow(circle.y-self.y, 2)) < (self.radius + circle.radius):
+            return True
+        else :
+            return False
+        
+       
+
 
 Ufo_blue = pygame.image.load("Obrazky/UFO-blue.png")
 Ufo_blue = pygame.transform.scale(Ufo_blue, (velikost,velikost))
@@ -20,10 +42,10 @@ Ufo_red = pygame.transform.scale(Ufo_red, (velikost,velikost))
 
 
 
-pygame.init()
-okno = pygame.display.set_mode((roz_X, roz_Y))
-hodiny = pygame.time.Clock()
-FPS = 120
+
+
+
+
 def gradientRect( window, left_colour, right_colour, target_rect ):
     colour_rect = pygame.Surface( ( 2, 2 ) )
     pygame.draw.line( colour_rect, left_colour, ( 0,0 ), ( 0,1 ) )
@@ -82,8 +104,18 @@ while True:
         boost1 = 136
     
     okno.fill((192,192,192))
+    c1 = circle(okno,(192,192,192),poz_X + velikost / 2,poz_Y + velikost / 2, velikost / 2 )
+    c2 = circle(okno,(192,192,192),poz_X2 + velikost/ 2,poz_Y2 + velikost/ 2, velikost / 2)
+    if c1.collidecircle(c2):
+        print("colize")
+
+
     okno.blit( Ufo_red, (poz_X2,poz_Y2))
+
+
     okno.blit( Ufo_blue, (poz_X,poz_Y))
+
+
     pygame.draw.rect(okno, (0,0,0), (roz_X - 280, roz_Y - 100, 140, 50),2)
     gradientRect( okno, (255, 255, 0), (255, 0, 0), pygame.Rect( roz_X - 278,roz_Y - 98, boost1, 46 ) )
 
