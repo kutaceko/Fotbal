@@ -1,8 +1,9 @@
-import pygame, random,math,sys
+import pygame, random,math,sys, time
 
 pygame.init()
-roz_X = 1920 /2
-roz_Y = 1080 /2
+pygame.font.init()
+roz_X = 1920 
+roz_Y = 1080 
 velikost = 100
 poz_X = roz_X / 4
 poz_Y = roz_Y / 2 - 50
@@ -16,7 +17,9 @@ boost1 = 0
 boost2 = 0
 FPS = 120
 okno = pygame.display.set_mode((roz_X, roz_Y))
-
+pygame.time.set_timer(pygame.USEREVENT, 1000)
+font = pygame.font.SysFont('Consolas', 60)
+counter, text = 120, '120'.rjust(3)
 class circle:
     def __init__(self, okno, color, x, y, radius) :
         self.x = x
@@ -51,8 +54,11 @@ def gradientRect( window, left_colour, right_colour, target_rect ):
     colour_rect = pygame.transform.smoothscale( colour_rect, ( target_rect.width, target_rect.height ) )
     window.blit( colour_rect, target_rect )
 while True:
-    hodiny.tick(FPS)
+
     for udalost in pygame.event.get():
+        if udalost.type == pygame.USEREVENT:
+            counter -= 1
+            text = str(counter).rjust(3) if counter > 0 else 'Game over'
         if udalost.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
@@ -60,7 +66,6 @@ while True:
     if keys[pygame.K_ESCAPE]:
         pygame.quit()
         sys.exit()
-    
     if keys[pygame.K_UP] and poz_Y2 > 0 :
         poz_Y2 -= rychlost2
     if keys[pygame.K_DOWN] and poz_Y2 < roz_Y - velikost :
@@ -114,6 +119,7 @@ while True:
 
     okno.blit( Ufo_blue, (poz_X,poz_Y))
 
+    okno.blit(font.render(text, True, (0, 0, 0)), (roz_X / 2 - 60, 48))
 
     pygame.draw.rect(okno, (0,0,0), (roz_X - 280, roz_Y - 100, 140, 50),2)
     gradientRect( okno, (255, 255, 0), (255, 0, 0), pygame.Rect( roz_X - 278,roz_Y - 98, boost2, 46 ) )
@@ -122,6 +128,7 @@ while True:
     gradientRect( okno, (255, 255, 0), (255, 0, 0), pygame.Rect(142,roz_Y - 98, boost1, 46 ) )
     
     
-    pygame.display.update()
+    pygame.display.flip()
 
+    hodiny.tick(FPS)
     
