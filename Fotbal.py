@@ -1,10 +1,8 @@
-import pygame
-import random
-import sys
-import math
+import pygame, random,math,sys
+
 pygame.init()
-roz_X = 1920
-roz_Y = 1080
+roz_X = 1920 /2
+roz_Y = 1080 /2
 velikost = 100
 poz_X = roz_X / 4
 poz_Y = roz_Y / 2 - 50
@@ -84,10 +82,10 @@ while True:
      
         
     if keys[pygame.K_RSHIFT] and boost2 > 0.3:
-        rychlost2 = 2.5
+        rychlost2 = 4
         boost2 -= 0.3
     if keys[pygame.K_RSHIFT] == False or boost2 < 0.4 :
-        rychlost2 = 1
+        rychlost2 = 2
         boost2 += 0.1
     if boost2 > 136:
         boost2 = 136
@@ -95,10 +93,10 @@ while True:
 
 
     if keys[pygame.K_LSHIFT] and boost1 > 0.3:
-        rychlost1 = 2.5
+        rychlost1 = 4
         boost1 -= 0.3
     if keys[pygame.K_LSHIFT] == False or boost1 < 0.4 :
-        rychlost1 = 1
+        rychlost1 = 2
         boost1 += 0.1
     if boost1 > 136:
         boost1 = 136
@@ -107,11 +105,7 @@ while True:
     c1 = circle(okno,(192,192,192),poz_X + velikost / 2,poz_Y + velikost / 2, velikost / 2 )
     c2 = circle(okno,(192,192,192),poz_X2 + velikost/ 2,poz_Y2 + velikost/ 2, velikost / 2)
     if c1.collidecircle(c2) == True:
-        rychlost1 = 0.01
-        rychlost2 = 0.01
-
-
-
+        print("colize")
 
 
 
@@ -129,3 +123,5 @@ while True:
     
     
     pygame.display.update()
+
+    
