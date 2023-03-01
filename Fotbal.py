@@ -1,10 +1,8 @@
-import pygame
-import random
-import sys
-import math
+import pygame, sys, random, math, time
+
 pygame.init()
-roz_X = 1920
-roz_Y = 1080
+roz_X = 1920 
+roz_Y = 1080 
 velikost = 100
 poz_X = roz_X / 4
 poz_Y = roz_Y / 2 - 50
@@ -13,9 +11,10 @@ poz_X2 = roz_X / 1.5
 poz_Y2 = roz_Y / 2 - 50
 
 hodiny = pygame.time.Clock()
-
-boost1 = 0
-boost2 = 0
+rychlost2 = 1
+rychlost1 = 1
+boost1 = 100
+boost2 = 100
 FPS = 120
 okno = pygame.display.set_mode((roz_X, roz_Y))
 
@@ -84,35 +83,42 @@ while True:
      
         
     if keys[pygame.K_RSHIFT] and boost2 > 0.3:
-        rychlost2 = 2.5
+        rychlost2 *= 1.009
         boost2 -= 0.3
     if keys[pygame.K_RSHIFT] == False or boost2 < 0.4 :
-        rychlost2 = 1
+        rychlost2 *= 0.99
         boost2 += 0.1
+    if rychlost2 <= 1:
+        rychlost2 = 1
+    if rychlost2 >= 15:
+        rychlost2 = 15
     if boost2 > 136:
         boost2 = 136
 
 
 
     if keys[pygame.K_LSHIFT] and boost1 > 0.3:
-        rychlost1 = 2.5
+        rychlost1 *= 1.009
         boost1 -= 0.3
     if keys[pygame.K_LSHIFT] == False or boost1 < 0.4 :
-        rychlost1 = 1
+        rychlost1 *= 0.99
         boost1 += 0.1
+    if rychlost1 <= 1:
+        rychlost1 = 1
+    if rychlost1 >= 15:
+        rychlost1 = 15
     if boost1 > 136:
         boost1 = 136
     
     okno.fill((192,192,192))
     c1 = circle(okno,(192,192,192),poz_X + velikost / 2,poz_Y + velikost / 2, velikost / 2 )
     c2 = circle(okno,(192,192,192),poz_X2 + velikost/ 2,poz_Y2 + velikost/ 2, velikost / 2)
-    if c1.collidecircle(c2) == True:
-        rychlost1 = 0.01
-        rychlost2 = 0.01
-
-
-
-
+    if c1.collidecircle(c2) == True and rychlost1 == 2.5 or c1.collidecircle(c2) == True and rychlost2 == 2.5:
+        poz_X = roz_X / 4
+        poz_Y = roz_Y / 2 - 50
+        poz_X2 = roz_X / 1.5
+        poz_Y = roz_Y / 2 - 50
+        time.sleep(0.5)
 
 
     okno.blit( Ufo_red, (poz_X2,poz_Y2))
@@ -127,5 +133,5 @@ while True:
     pygame.draw.rect(okno, (0,0,0), (140 ,roz_Y - 100, 140, 50),2)
     gradientRect( okno, (255, 255, 0), (255, 0, 0), pygame.Rect(142,roz_Y - 98, boost1, 46 ) )
     
-    
+
     pygame.display.update()
