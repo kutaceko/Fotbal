@@ -19,8 +19,14 @@ boost1 = 100
 boost2 = 100
 FPS = 120
 okno = pygame.display.set_mode((roz_X, roz_Y))
-time1 = 923456789876545670987654345678906345678
-time2 = 4213128763512735131276351531387651317621376
+time1 = 99999999999999999999999999999999999999999999999999
+time2 = 99999999999999999999999999999999999999999999999999
+
+cubes = []
+for i in range(3):
+    rect = pygame.Rect(random.randint(25,roz_X - 50), random.randint(25,roz_Y - 50), 30, 30)
+    cubes.append(rect)
+    
 class circle:
     def __init__(self, okno, color, x, y, radius) :
         self.x = x
@@ -128,7 +134,7 @@ while True:
     if time.time() - time1 > 2:
         vykresleni2 = True 
         rychlost2 = 1
-        time1 = 94312341763476521437614233245678909371652735213
+        time1 = 9999999999999999999999999999999999999999999999999
         
         
     if c1.collidecircle(c2) == True and rychlost2 > 13 :
@@ -141,13 +147,23 @@ while True:
     if time.time() - time2 > 2:
         vykresleni1 = True 
         rychlost1 = 1
-        time2 = 987213138166173782163872167162873621324
+        time2 = 9999999999999999999999999999999999999999999999999999999
     if vykresleni2 == True :
         okno.blit( Ufo_red, (poz_X2,poz_Y2))
 
     if vykresleni1 == True :
         okno.blit( Ufo_blue, (poz_X,poz_Y))
-
+    for i in cubes:
+        collide = pygame.Rect.colliderect(c1, i)
+        if collide == True:
+            cubes.remove(i)
+            boost1 += 20
+    for i in cubes:
+        collide = pygame.Rect.colliderect(c2, i)
+        if collide == True:
+            cubes.remove(i)
+            boost2 += 20     
+            
 
     pygame.draw.rect(okno, (0,0,0), (roz_X - 280, roz_Y - 100, 140, 50),2)
     gradientRect( okno, (255, 255, 0), (255, 0, 0), pygame.Rect( roz_X - 278,roz_Y - 98, boost2, 46 ) )
