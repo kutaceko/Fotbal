@@ -10,6 +10,8 @@ poz_Y = roz_Y / 2 - 50
 poz_X2 = roz_X / 1.5
 poz_Y2 = roz_Y / 2 - 50
 
+vykresleni1 = True
+vykresleni2 = True 
 hodiny = pygame.time.Clock()
 rychlost2 = 1
 rychlost1 = 1
@@ -17,7 +19,8 @@ boost1 = 100
 boost2 = 100
 FPS = 120
 okno = pygame.display.set_mode((roz_X, roz_Y))
-
+time1 = 923456789876545670987654345678906345678
+time2 = 4213128763512735131276351531387651317621376
 class circle:
     def __init__(self, okno, color, x, y, radius) :
         self.x = x
@@ -113,18 +116,37 @@ while True:
     okno.fill((192,192,192))
     c1 = circle(okno,(192,192,192),poz_X + velikost / 2,poz_Y + velikost / 2, velikost / 2 )
     c2 = circle(okno,(192,192,192),poz_X2 + velikost/ 2,poz_Y2 + velikost/ 2, velikost / 2)
-    if c1.collidecircle(c2) == True and rychlost1 == 2.5 or c1.collidecircle(c2) == True and rychlost2 == 2.5:
+    
+
+    if c1.collidecircle(c2) == True and rychlost1 > 13 :
+        rychlost1 = 1
+        vykresleni2 = False
+        rychlost2 = 0
+        poz_X2 = roz_X / 1.5
+        poz_Y2 = roz_Y / 2 - 50 
+        time1 = time.time()
+    if time.time() - time1 > 2:
+        vykresleni2 = True 
+        rychlost2 = 1
+        time1 = 94312341763476521437614233245678909371652735213
+        
+        
+    if c1.collidecircle(c2) == True and rychlost2 > 13 :
+        rychlost2 = 1
+        vykresleni1 = False
+        rychlost1 = 0
         poz_X = roz_X / 4
         poz_Y = roz_Y / 2 - 50
-        poz_X2 = roz_X / 1.5
-        poz_Y = roz_Y / 2 - 50
-        time.sleep(0.5)
+        time2 = time.time()
+    if time.time() - time2 > 2:
+        vykresleni1 = True 
+        rychlost1 = 1
+        time2 = 987213138166173782163872167162873621324
+    if vykresleni2 == True :
+        okno.blit( Ufo_red, (poz_X2,poz_Y2))
 
-
-    okno.blit( Ufo_red, (poz_X2,poz_Y2))
-
-
-    okno.blit( Ufo_blue, (poz_X,poz_Y))
+    if vykresleni1 == True :
+        okno.blit( Ufo_blue, (poz_X,poz_Y))
 
 
     pygame.draw.rect(okno, (0,0,0), (roz_X - 280, roz_Y - 100, 140, 50),2)
