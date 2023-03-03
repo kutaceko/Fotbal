@@ -1,7 +1,13 @@
+<<<<<<< HEAD
 import pygame, random,math,sys, time
 
 pygame.init()
 pygame.font.init()
+=======
+import pygame, sys, random, math, time
+
+pygame.init()
+>>>>>>> main
 roz_X = 1920 
 roz_Y = 1080 
 velikost = 100
@@ -11,15 +17,29 @@ poz_Y = roz_Y / 2 - 50
 poz_X2 = roz_X / 1.5
 poz_Y2 = roz_Y / 2 - 50
 
+vykresleni1 = True
+vykresleni2 = True 
 hodiny = pygame.time.Clock()
-
-boost1 = 0
-boost2 = 0
+rychlost2 = 1
+rychlost1 = 1
+boost1 = 100
+boost2 = 100
 FPS = 120
 okno = pygame.display.set_mode((roz_X, roz_Y))
+<<<<<<< HEAD
 pygame.time.set_timer(pygame.USEREVENT, 1000)
 font = pygame.font.SysFont('Consolas', 60)
 counter, text = 120, '120'.rjust(3)
+=======
+time1 = 99999999999999999999999999999999999999999999999999
+time2 = 99999999999999999999999999999999999999999999999999
+
+cubes = []
+for i in range(3):
+    rect = pygame.Rect(random.randint(25,roz_X - 50), random.randint(25,roz_Y - 50), 30, 30)
+    cubes.append(rect)
+    
+>>>>>>> main
 class circle:
     def __init__(self, okno, color, x, y, radius) :
         self.x = x
@@ -87,28 +107,51 @@ while True:
      
         
     if keys[pygame.K_RSHIFT] and boost2 > 0.3:
+<<<<<<< HEAD
         rychlost2 = 4
         boost2 -= 0.3
     if keys[pygame.K_RSHIFT] == False or boost2 < 0.4 :
         rychlost2 = 2
+=======
+        rychlost2 *= 1.009
+        boost2 -= 0.3
+    if keys[pygame.K_RSHIFT] == False or boost2 < 0.4 :
+        rychlost2 *= 0.99
+>>>>>>> main
         boost2 += 0.1
+    if rychlost2 <= 1:
+        rychlost2 = 1
+    if rychlost2 >= 15:
+        rychlost2 = 15
     if boost2 > 136:
         boost2 = 136
 
 
 
     if keys[pygame.K_LSHIFT] and boost1 > 0.3:
+<<<<<<< HEAD
         rychlost1 = 4
         boost1 -= 0.3
     if keys[pygame.K_LSHIFT] == False or boost1 < 0.4 :
         rychlost1 = 2
+=======
+        rychlost1 *= 1.009
+        boost1 -= 0.3
+    if keys[pygame.K_LSHIFT] == False or boost1 < 0.4 :
+        rychlost1 *= 0.99
+>>>>>>> main
         boost1 += 0.1
+    if rychlost1 <= 1:
+        rychlost1 = 1
+    if rychlost1 >= 15:
+        rychlost1 = 15
     if boost1 > 136:
         boost1 = 136
     
     okno.fill((192,192,192))
     c1 = circle(okno,(192,192,192),poz_X + velikost / 2,poz_Y + velikost / 2, velikost / 2 )
     c2 = circle(okno,(192,192,192),poz_X2 + velikost/ 2,poz_Y2 + velikost/ 2, velikost / 2)
+<<<<<<< HEAD
     if c1.collidecircle(c2) == True:
         print("colize")
 
@@ -120,6 +163,50 @@ while True:
     okno.blit( Ufo_blue, (poz_X,poz_Y))
 
     okno.blit(font.render(text, True, (0, 0, 0)), (roz_X / 2 - 60, 48))
+=======
+    
+
+    if c1.collidecircle(c2) == True and rychlost1 > 13 :
+        rychlost1 = 1
+        vykresleni2 = False
+        rychlost2 = 0
+        poz_X2 = roz_X / 1.5
+        poz_Y2 = roz_Y / 2 - 50 
+        time1 = time.time()
+    if time.time() - time1 > 2:
+        vykresleni2 = True 
+        rychlost2 = 1
+        time1 = 9999999999999999999999999999999999999999999999999
+        
+        
+    if c1.collidecircle(c2) == True and rychlost2 > 13 :
+        rychlost2 = 1
+        vykresleni1 = False
+        rychlost1 = 0
+        poz_X = roz_X / 4
+        poz_Y = roz_Y / 2 - 50
+        time2 = time.time()
+    if time.time() - time2 > 2:
+        vykresleni1 = True 
+        rychlost1 = 1
+        time2 = 9999999999999999999999999999999999999999999999999999999
+    if vykresleni2 == True :
+        okno.blit( Ufo_red, (poz_X2,poz_Y2))
+
+    if vykresleni1 == True :
+        okno.blit( Ufo_blue, (poz_X,poz_Y))
+    for i in cubes:
+        collide = pygame.Rect.colliderect(c1, i)
+        if collide == True:
+            cubes.remove(i)
+            boost1 += 20
+    for i in cubes:
+        collide = pygame.Rect.colliderect(c2, i)
+        if collide == True:
+            cubes.remove(i)
+            boost2 += 20     
+            
+>>>>>>> main
 
     pygame.draw.rect(okno, (0,0,0), (roz_X - 280, roz_Y - 100, 140, 50),2)
     gradientRect( okno, (255, 255, 0), (255, 0, 0), pygame.Rect( roz_X - 278,roz_Y - 98, boost2, 46 ) )
@@ -127,8 +214,13 @@ while True:
     pygame.draw.rect(okno, (0,0,0), (140 ,roz_Y - 100, 140, 50),2)
     gradientRect( okno, (255, 255, 0), (255, 0, 0), pygame.Rect(142,roz_Y - 98, boost1, 46 ) )
     
+<<<<<<< HEAD
     
     pygame.display.flip()
 
     hodiny.tick(FPS)
     
+=======
+
+    pygame.display.update()
+>>>>>>> main
