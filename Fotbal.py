@@ -43,17 +43,12 @@ class circle:
         else :
             return False
         
-       
 
 
 Ufo_blue = pygame.image.load("Obrazky/UFO-blue.png")
 Ufo_blue = pygame.transform.scale(Ufo_blue, (velikost,velikost))
 Ufo_red = pygame.image.load("Obrazky/Ufo-red.png")
 Ufo_red = pygame.transform.scale(Ufo_red, (velikost,velikost))
-
-
-
-
 
 
 
@@ -166,7 +161,7 @@ while True:
     pygame.draw.rect(okno, (0,0,0), (140 ,roz_Y - 100, 140, 50),2)
     gradientRect( okno, (255, 255, 0), (255, 0, 0), pygame.Rect(142,roz_Y - 98, boost1, 46 ) )
     
-
+    pygame.draw.rect(okno, (255,0,0), (roz_X - 7, roz_Y / 2 - 100,7,200 ))
     pygame.display.update()
     hodiny.tick(FPS)
 
