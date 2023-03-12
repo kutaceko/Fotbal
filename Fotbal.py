@@ -105,7 +105,6 @@ while True:
         boost2 = 136
 
 
-
     if keys[pygame.K_LSHIFT] and boost1 > 0.3:
         rychlost1 *= 1.009
         boost1 -= 0.3
@@ -162,6 +161,8 @@ while True:
     gradientRect( okno, (255, 255, 0), (255, 0, 0), pygame.Rect(142,roz_Y - 98, boost1, 46 ) )
     
     pygame.draw.rect(okno, (255,0,0), (roz_X - 7, roz_Y / 2 - 100,7,200 ))
+
+    pygame.draw.rect(okno, (0,0,255), (0, roz_Y / 2 - 100,7,200 ))
     pygame.display.update()
     hodiny.tick(FPS)
 
