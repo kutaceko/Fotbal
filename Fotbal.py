@@ -24,34 +24,13 @@ font = pygame.font.SysFont('Consolas', 60)
 counter, text = 120, '120'.rjust(3)
 time1 = 99999999999999999999999999999999999999999999999999
 time2 = 99999999999999999999999999999999999999999999999999
-balls = []
-for i in range (1):
-    x = roz_X / 2
-    y = roz_Y / 2
-    dx = random.uniform(-3,3)
-    dy = random.uniform(-3,3)
-    color = (0,0,0)
-    balls.append({'x': x, 'y': y, 'dx': dx, 'dy': dy, 'color': color})
-    
-cubes = []
-for i in range(3):
-    rect = pygame.Rect(random.randint(25,roz_X - 50), random.randint(25,roz_Y - 50), 30, 30)
-    cubes.append(rect)
-    
-class circle:
-    def __init__(self, okno, color, x, y, radius) :
-        self.x = x
-        self.y = y
-        self.radius = radius
-        pygame.draw.circle(okno, color, (x, y), radius)
-    
-    def collidecircle(self, circle):
-        if math.sqrt(pow(circle.x-self.x, 2) + pow(circle.y-self.y, 2)) < (self.radius + circle.radius):
-            return True
-        else :
-            return False
-        
 
+soccer_ball_radius = 20
+soccer_ball_x = roz_X / 2
+soccer_ball_y = roz_Y / 2
+soccer_ball_speed_x = random.randint(-3, 3)
+soccer_ball_speed_y = random.randint(-3, 3)    
+        
 
 Ufo_blue = pygame.image.load("Obrazky/UFO-blue.png")
 Ufo_blue = pygame.transform.scale(Ufo_blue, (velikost,velikost))
@@ -75,30 +54,11 @@ while True:
         if udalost.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-    c1 = circle(okno,(192,192,192),poz_X + velikost / 2,poz_Y + velikost / 2, velikost / 2 )
-    c2 = circle(okno,(192,192,192),poz_X2 + velikost/ 2,poz_Y2 + velikost/ 2, velikost / 2)
-    for ball in balls:
-        ball['x'] += speed * math.cos(ball['angle'])
-        ball['y'] += speed * math.sin(ball['angle'])
-        ball['x'] += ball['dx']
-        ball['y'] += ball['dy']
-        
-    if ball['x'] - ball_velikost < 0 or ball['x'] + ball_velikost > roz_X:
-        ball['dx'] *= -1
-    if ball['y'] - ball_velikost < 0 or ball['y'] + ball_velikost > roz_Y:            
-        ball['dy'] *= -1
-    for self in balls:
-        if ball == self:
-            continue
-        distance = ((ball['x'] - self.x) ** 2 + (ball['y'] - self.y) ** 2) ** 0.5
-        if distance < ball_velikost * 2:
-            ball['dx'] *= -1
-            ball['dy'] *= -1
 
             
             
             
-            
+
             
             
     keys = pygame.key.get_pressed()
@@ -154,22 +114,34 @@ while True:
     
     okno.fill((192,192,192))
 
-    
 
-    if c1.collidecircle(c2) == True and rychlost1 >= 10 :
+    soccer_ball_x += soccer_ball_speed_x
+    soccer_ball_y += soccer_ball_speed_y
+
+    if soccer_ball_x < soccer_ball_radius or soccer_ball_x > roz_X - soccer_ball_radius:
+        soccer_ball_speed_x *= -1
+    if soccer_ball_y < soccer_ball_radius or soccer_ball_y > roz_Y - soccer_ball_radius:
+        soccer_ball_speed_y *= -1
+
+    distance = ((poz_X + 45 - soccer_ball_x) ** 2 + (poz_Y + 45 - soccer_ball_y) ** 2) ** 0.5
+    if distance < velikost / 2  + soccer_ball_radius:
+
+        soccer_ball_speed_x *= -1
+        soccer_ball_speed_y *= -1
+
+
+    distance = ((poz_X + 45 - (poz_X2 + 45)) ** 2 + (poz_Y + 45 - (poz_Y2 + 45)) ** 2) ** 0.5
+    if distance < velikost / 2  + velikost /2 and rychlost1 >= 10:        
+
         rychlost1 = 1
         vykresleni2 = False
-        rychlost2 = 0
         poz_X2 = roz_X / 1.5
         poz_Y2 = roz_Y / 2 - 50 
         time1 = time.time()
     if time.time() - time1 > 2:
         vykresleni2 = True 
-        rychlost2 = 1
         time1 = 9999999999999999999999999999999999999999999999999
-        
-        
-    if c1.collidecircle(c2) == True and rychlost2 >= 10 :
+    if distance < velikost / 2  + velikost /2 and rychlost2 >= 10:        
         rychlost2 = 1
         vykresleni1 = False
         rychlost1 = 0
@@ -180,6 +152,13 @@ while True:
         vykresleni1 = True 
         rychlost1 = 1
         time2 = 9999999999999999999999999999999999999999999999999999999
+
+    if vykresleni2 == False:
+        rychlost2 = 0
+    if vykresleni1 == False:
+        rychlost1 = 0
+    
+
     if vykresleni2 == True :
         okno.blit( Ufo_red, (poz_X2,poz_Y2))
 
@@ -192,15 +171,11 @@ while True:
 
     pygame.draw.rect(okno, (0,0,0), (140 ,roz_Y - 100, 140, 50),2)
     gradientRect( okno, (255, 255, 0), (255, 0, 0), pygame.Rect(142,roz_Y - 98, boost1, 46 ) )
-    
-<<<<<<< HEAD
+
     pygame.draw.rect(okno, (255,0,0), (roz_X - 7, roz_Y / 2 - 100,7,200 ))
 
     pygame.draw.rect(okno, (0,0,255), (0, roz_Y / 2 - 100,7,200 ))
-=======
-    for ball in balls:
-        pygame.draw.circle(okno, ball['color'], (int(ball['x']), int(ball['y'])), ball_velikost)
->>>>>>> main
+    pygame.draw.circle(okno, (255,255,255), (soccer_ball_x, soccer_ball_y), soccer_ball_radius)
     pygame.display.update()
     hodiny.tick(FPS)
 
