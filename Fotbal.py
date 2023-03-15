@@ -3,13 +3,13 @@ import pygame, sys, random, math, time
 pygame.init()
 roz_X = 1920 
 roz_Y = 1080 
-velikost = 100
+velikost = 90
 poz_X = roz_X / 4
 poz_Y = roz_Y / 2 - 50
 
 poz_X2 = roz_X / 1.5
 poz_Y2 = roz_Y / 2 - 50
-
+ball_velikost = 20
 vykresleni1 = True
 vykresleni2 = True 
 hodiny = pygame.time.Clock()
@@ -24,7 +24,15 @@ font = pygame.font.SysFont('Consolas', 60)
 counter, text = 120, '120'.rjust(3)
 time1 = 99999999999999999999999999999999999999999999999999
 time2 = 99999999999999999999999999999999999999999999999999
-
+balls = []
+for i in range (1):
+    x = roz_X / 2
+    y = roz_Y / 2
+    dx = random.uniform(-3,3)
+    dy = random.uniform(-3,3)
+    color = (0,0,0)
+    balls.append({'x': x, 'y': y, 'dx': dx, 'dy': dy, 'color': color})
+    
 cubes = []
 for i in range(3):
     rect = pygame.Rect(random.randint(25,roz_X - 50), random.randint(25,roz_Y - 50), 30, 30)
@@ -72,6 +80,32 @@ while True:
         if udalost.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+    c1 = circle(okno,(192,192,192),poz_X + velikost / 2,poz_Y + velikost / 2, velikost / 2 )
+    c2 = circle(okno,(192,192,192),poz_X2 + velikost/ 2,poz_Y2 + velikost/ 2, velikost / 2)
+    for ball in balls:
+        ball['x'] += speed * math.cos(ball['angle'])
+        ball['y'] += speed * math.sin(ball['angle'])
+        ball['x'] += ball['dx']
+        ball['y'] += ball['dy']
+        
+    if ball['x'] - ball_velikost < 0 or ball['x'] + ball_velikost > roz_X:
+        ball['dx'] *= -1
+    if ball['y'] - ball_velikost < 0 or ball['y'] + ball_velikost > roz_Y:            
+        ball['dy'] *= -1
+    for self in balls:
+        if ball == self:
+            continue
+        distance = ((ball['x'] - self.x) ** 2 + (ball['y'] - self.y) ** 2) ** 0.5
+        if distance < ball_velikost * 2:
+            ball['dx'] *= -1
+            ball['dy'] *= -1
+
+            
+            
+            
+            
+            
+            
     keys = pygame.key.get_pressed()
     if keys[pygame.K_ESCAPE]:
         pygame.quit()
@@ -97,39 +131,38 @@ while True:
      
         
     if keys[pygame.K_RSHIFT] and boost2 > 0.3:
-        rychlost2 *= 1.009
+        rychlost2 *= 1.019
         boost2 -= 0.3
     if keys[pygame.K_RSHIFT] == False or boost2 < 0.4 :
         rychlost2 *= 0.99
         boost2 += 0.1
     if rychlost2 <= 1:
         rychlost2 = 1
-    if rychlost2 >= 15:
-        rychlost2 = 15
+    if rychlost2 >= 10:
+        rychlost2 = 10
     if boost2 > 136:
         boost2 = 136
 
 
 
     if keys[pygame.K_LSHIFT] and boost1 > 0.3:
-        rychlost1 *= 1.009
+        rychlost1 *= 1.019
         boost1 -= 0.3
     if keys[pygame.K_LSHIFT] == False or boost1 < 0.4 :
         rychlost1 *= 0.99
         boost1 += 0.1
     if rychlost1 <= 1:
         rychlost1 = 1
-    if rychlost1 >= 15:
-        rychlost1 = 15
+    if rychlost1 >= 10:
+        rychlost1 = 10
     if boost1 > 136:
         boost1 = 136
     
     okno.fill((192,192,192))
-    c1 = circle(okno,(192,192,192),poz_X + velikost / 2,poz_Y + velikost / 2, velikost / 2 )
-    c2 = circle(okno,(192,192,192),poz_X2 + velikost/ 2,poz_Y2 + velikost/ 2, velikost / 2)
+
     
 
-    if c1.collidecircle(c2) == True and rychlost1 > 13 :
+    if c1.collidecircle(c2) == True and rychlost1 >= 10 :
         rychlost1 = 1
         vykresleni2 = False
         rychlost2 = 0
@@ -142,7 +175,7 @@ while True:
         time1 = 9999999999999999999999999999999999999999999999999
         
         
-    if c1.collidecircle(c2) == True and rychlost2 > 13 :
+    if c1.collidecircle(c2) == True and rychlost2 >= 10 :
         rychlost2 = 1
         vykresleni1 = False
         rychlost1 = 0
@@ -166,7 +199,8 @@ while True:
     pygame.draw.rect(okno, (0,0,0), (140 ,roz_Y - 100, 140, 50),2)
     gradientRect( okno, (255, 255, 0), (255, 0, 0), pygame.Rect(142,roz_Y - 98, boost1, 46 ) )
     
-
+    for ball in balls:
+        pygame.draw.circle(okno, ball['color'], (int(ball['x']), int(ball['y'])), ball_velikost)
     pygame.display.update()
     hodiny.tick(FPS)
 
