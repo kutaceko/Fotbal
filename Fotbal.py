@@ -36,8 +36,7 @@ Ufo_blue = pygame.image.load("Obrazky/UFO-blue.png")
 Ufo_blue = pygame.transform.scale(Ufo_blue, (velikost,velikost))
 Ufo_red = pygame.image.load("Obrazky/Ufo-red.png")
 Ufo_red = pygame.transform.scale(Ufo_red, (velikost,velikost))
-
-
+   
 
 def gradientRect( window, left_colour, right_colour, target_rect ):
     colour_rect = pygame.Surface( ( 2, 2 ) )
@@ -57,8 +56,6 @@ while True:
 
             
             
-            
-
             
             
     keys = pygame.key.get_pressed()
@@ -90,7 +87,6 @@ while True:
         boost2 -= 0.3
     if keys[pygame.K_RSHIFT] == False or boost2 < 0.4 :
         rychlost2 *= 0.99
-        boost2 += 0.1
     if rychlost2 <= 1:
         rychlost2 = 1
     if rychlost2 >= 10:
@@ -104,7 +100,6 @@ while True:
         boost1 -= 0.3
     if keys[pygame.K_LSHIFT] == False or boost1 < 0.4 :
         rychlost1 *= 0.99
-        boost1 += 0.1
     if rychlost1 <= 1:
         rychlost1 = 1
     if rychlost1 >= 10:
@@ -117,12 +112,12 @@ while True:
 
     soccer_ball_x += soccer_ball_speed_x
     soccer_ball_y += soccer_ball_speed_y
-
+    #check for collision w wall
     if soccer_ball_x < soccer_ball_radius or soccer_ball_x > roz_X - soccer_ball_radius:
         soccer_ball_speed_x *= -1
     if soccer_ball_y < soccer_ball_radius or soccer_ball_y > roz_Y - soccer_ball_radius:
         soccer_ball_speed_y *= -1
-
+    #check for collision w player
     distance = ((poz_X + 45 - soccer_ball_x) ** 2 + (poz_Y + 45 - soccer_ball_y) ** 2) ** 0.5
     if distance < velikost / 2  + soccer_ball_radius:
 
@@ -152,7 +147,12 @@ while True:
         vykresleni1 = True 
         rychlost1 = 1
         time2 = 9999999999999999999999999999999999999999999999999999999
-
+        
+    distance = ((dotX[0] + 5 - (poz_X + 45)) ** 2 + (dotY[0] + 5 - (poz_X + 45)) ** 2) ** 0.5
+    if distance < velikost / 2  + dot_radius:
+        boost1 += 40
+        
+        
     if vykresleni2 == False:
         rychlost2 = 0
     if vykresleni1 == False:
@@ -173,6 +173,7 @@ while True:
     gradientRect( okno, (255, 255, 0), (255, 0, 0), pygame.Rect(142,roz_Y - 98, boost1, 46 ) )
 
     pygame.draw.rect(okno, (255,0,0), (roz_X - 7, roz_Y / 2 - 100,7,200 ))
+   
 
     pygame.draw.rect(okno, (0,0,255), (0, roz_Y / 2 - 100,7,200 ))
     pygame.draw.circle(okno, (255,255,255), (soccer_ball_x, soccer_ball_y), soccer_ball_radius)
