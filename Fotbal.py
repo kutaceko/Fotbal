@@ -25,7 +25,7 @@ counter, text = 120, '120'.rjust(3)
 time1 = 99999999999999999999999999999999999999999999999999
 time2 = 99999999999999999999999999999999999999999999999999
 
-soccer_ball_radius = 20
+soccer_ball_radius = 30
 soccer_ball_x = roz_X / 2
 soccer_ball_y = roz_Y / 2
 soccer_ball_speed_x = random.randint(-3, 3)
@@ -44,6 +44,14 @@ def gradientRect( window, left_colour, right_colour, target_rect ):
     pygame.draw.line( colour_rect, right_colour, ( 1,0 ), ( 1,1 ) )
     colour_rect = pygame.transform.smoothscale( colour_rect, ( target_rect.width, target_rect.height ) )
     window.blit( colour_rect, target_rect )
+    
+dot_radius1 = 15
+dotX1 = random.randint(0 + 20, roz_X - 20)
+dotY1 = random.randint(0 + 20, roz_Y - 20)
+
+
+    
+    
 while True:
     
     for udalost in pygame.event.get():
@@ -148,11 +156,12 @@ while True:
         rychlost1 = 1
         time2 = 9999999999999999999999999999999999999999999999999999999
         
-    distance = ((dotX[0] + 5 - (poz_X + 45)) ** 2 + (dotY[0] + 5 - (poz_X + 45)) ** 2) ** 0.5
-    if distance < velikost / 2  + dot_radius:
-        boost1 += 40
         
-        
+    distance2 = ((poz_X + 45 - dotX1) ** 2 + (poz_Y + 45 - dotY1) **2) ** 0.5
+    if distance2 < velikost / 2  + dot_radius1 :
+        boost1 += 30    
+        dotX1 = random.randint(0 + 20,roz_X-20)
+        dotY1 = random.randint(0 + 20,roz_Y-20)
     if vykresleni2 == False:
         rychlost2 = 0
     if vykresleni1 == False:
@@ -173,8 +182,9 @@ while True:
     gradientRect( okno, (255, 255, 0), (255, 0, 0), pygame.Rect(142,roz_Y - 98, boost1, 46 ) )
 
     pygame.draw.rect(okno, (255,0,0), (roz_X - 7, roz_Y / 2 - 100,7,200 ))
-   
-
+    
+    pygame.draw.circle(okno,(255,255,0), (dotX1, dotY1), dot_radius1)
+    
     pygame.draw.rect(okno, (0,0,255), (0, roz_Y / 2 - 100,7,200 ))
     pygame.draw.circle(okno, (255,255,255), (soccer_ball_x, soccer_ball_y), soccer_ball_radius)
     pygame.display.update()
