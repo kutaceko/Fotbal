@@ -15,8 +15,8 @@ vykresleni2 = True
 hodiny = pygame.time.Clock()
 rychlost2 = 1
 rychlost1 = 1
-boost1 = 100
-boost2 = 100
+boost1 = 50
+boost2 = 50
 FPS = 120
 okno = pygame.display.set_mode((roz_X, roz_Y))
 pygame.time.set_timer(pygame.USEREVENT, 1000)
@@ -159,14 +159,22 @@ while True:
         
     distance2 = ((poz_X + 45 - dotX1) ** 2 + (poz_Y + 45 - dotY1) **2) ** 0.5
     if distance2 < velikost / 2  + dot_radius1 :
-        boost1 += 30    
+        boost1 += 20    
         dotX1 = random.randint(0 + 20,roz_X-20)
         dotY1 = random.randint(0 + 20,roz_Y-20)
     if vykresleni2 == False:
         rychlost2 = 0
     if vykresleni1 == False:
         rychlost1 = 0
-    
+    distance2 = ((poz_X2 + 45 - dotX1) ** 2 + (poz_Y2 + 45 - dotY1) **2) ** 0.5
+    if distance2 < velikost / 2  + dot_radius1 :
+        boost2 += 20    
+        dotX1 = random.randint(0 + 20,roz_X-20)
+        dotY1 = random.randint(0 + 20,roz_Y-20)
+    if vykresleni2 == False:
+        rychlost2 = 0
+    if vykresleni1 == False:
+        rychlost1 = 0    
 
     if vykresleni2 == True :
         okno.blit( Ufo_red, (poz_X2,poz_Y2))
