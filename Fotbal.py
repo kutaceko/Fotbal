@@ -13,8 +13,8 @@ ball_velikost = 20
 vykresleni1 = True
 vykresleni2 = True 
 hodiny = pygame.time.Clock()
-rychlost2 = 1
-rychlost1 = 1
+rychlost2 = 2
+rychlost1 = 2
 boost1 = 50
 boost2 = 50
 FPS = 120
@@ -28,8 +28,10 @@ time2 = 99999999999999999999999999999999999999999999999999
 soccer_ball_radius = 30
 soccer_ball_x = roz_X / 2
 soccer_ball_y = roz_Y / 2
-soccer_ball_speed_x = random.randint(-3, 3)
-soccer_ball_speed_y = random.randint(-3, 3)    
+soccer_ball_speed_x = random.randint(-3,3)
+soccer_ball_speed_y = soccer_ball_speed_x
+random_degree = random.randint(0,359)
+angle = math.radians(random_degree)
         
 
 Ufo_blue = pygame.image.load("Obrazky/UFO-blue.png")
@@ -118,8 +120,8 @@ while True:
     okno.fill((192,192,192))
 
 
-    soccer_ball_x += soccer_ball_speed_x
-    soccer_ball_y += soccer_ball_speed_y
+    soccer_ball_x += soccer_ball_speed_x * math.sin(angle)
+    soccer_ball_y += soccer_ball_speed_y * math.cos(angle)
     #check for collision w wall
     if soccer_ball_x < soccer_ball_radius or soccer_ball_x > roz_X - soccer_ball_radius:
         soccer_ball_speed_x *= -1
@@ -127,16 +129,34 @@ while True:
         soccer_ball_speed_y *= -1
     #check for collision w player
     distance = ((poz_X + 45 - soccer_ball_x) ** 2 + (poz_Y + 45 - soccer_ball_y) ** 2) ** 0.5
-    if distance < velikost / 2  + soccer_ball_radius:
-
+    if distance < velikost / 2  + soccer_ball_radius and rychlost1 < 4:
+        soccer_ball_speed_x  = 2
+        soccer_ball_speed_y  = 2
         soccer_ball_speed_x *= -1
         soccer_ball_speed_y *= -1
-
-
+        angle += math.radians(random_degree)
+    if distance < velikost / 2  + soccer_ball_radius and rychlost1 > 4:
+        soccer_ball_speed_x  = 4
+        soccer_ball_speed_y  = 4
+        soccer_ball_speed_x *= -1
+        soccer_ball_speed_y *= -1
+        angle += math.radians(random_degree)
+    distance = ((poz_X2 + 45 - soccer_ball_x) ** 2 + (poz_Y2 + 45 - soccer_ball_y) ** 2) ** 0.5
+    if distance < velikost / 2  + soccer_ball_radius and rychlost2 < 4:
+        soccer_ball_speed_x  = 2
+        soccer_ball_speed_y  = 2
+        soccer_ball_speed_x *= -1
+        soccer_ball_speed_y *= -1
+        angle += math.radians(random_degree)
+    if distance < velikost / 2  + soccer_ball_radius and rychlost2 > 4:
+        soccer_ball_speed_x  = 4
+        soccer_ball_speed_y  = 2
+        soccer_ball_speed_x *= -1
+        soccer_ball_speed_y *= -1
     distance = ((poz_X + 45 - (poz_X2 + 45)) ** 2 + (poz_Y + 45 - (poz_Y2 + 45)) ** 2) ** 0.5
     if distance < velikost / 2  + velikost /2 and rychlost1 >= 10:        
 
-        rychlost1 = 1
+        rychlost1 = 2
         vykresleni2 = False
         poz_X2 = roz_X / 1.5
         poz_Y2 = roz_Y / 2 - 50 
@@ -145,7 +165,7 @@ while True:
         vykresleni2 = True 
         time1 = 9999999999999999999999999999999999999999999999999
     if distance < velikost / 2  + velikost /2 and rychlost2 >= 10:        
-        rychlost2 = 1
+        rychlost2 = 2
         vykresleni1 = False
         rychlost1 = 0
         poz_X = roz_X / 4
@@ -159,7 +179,7 @@ while True:
         
     distance2 = ((poz_X + 45 - dotX1) ** 2 + (poz_Y + 45 - dotY1) **2) ** 0.5
     if distance2 < velikost / 2  + dot_radius1 :
-        boost1 += 20    
+        boost1 += 30    
         dotX1 = random.randint(0 + 20,roz_X-20)
         dotY1 = random.randint(0 + 20,roz_Y-20)
     if vykresleni2 == False:
@@ -168,7 +188,7 @@ while True:
         rychlost1 = 0
     distance2 = ((poz_X2 + 45 - dotX1) ** 2 + (poz_Y2 + 45 - dotY1) **2) ** 0.5
     if distance2 < velikost / 2  + dot_radius1 :
-        boost2 += 20    
+        boost2 += 30    
         dotX1 = random.randint(0 + 20,roz_X-20)
         dotY1 = random.randint(0 + 20,roz_Y-20)
     if vykresleni2 == False:
