@@ -24,7 +24,8 @@ font = pygame.font.SysFont('Consolas', 60)
 counter, text = 120, '120'.rjust(3)
 time1 = 99999999999999999999999999999999999999999999999999
 time2 = 99999999999999999999999999999999999999999999999999
-
+counter2 = 0
+counter3 = 0
 soccer_ball_radius = 30
 soccer_ball_x = roz_X / 2
 soccer_ball_y = roz_Y / 2
@@ -201,19 +202,42 @@ while True:
 
     if vykresleni1 == True :
         okno.blit( Ufo_blue, (poz_X,poz_Y))
-    okno.blit(font.render(text, True, (0, 0, 0)), (roz_X / 2 - 60, 48)) 
 
+
+    if soccer_ball_x <= 45:
+        counter2 += 1
+        soccer_ball_radius = 30
+        soccer_ball_x = roz_X / 2
+        soccer_ball_y = roz_Y / 2
+        soccer_ball_speed_x = random.randint(-3,3)
+        soccer_ball_speed_y = soccer_ball_speed_x
+    if soccer_ball_x >= roz_X - 45:
+        counter3 += 1
+        soccer_ball_radius = 30
+        soccer_ball_x = roz_X / 2
+        soccer_ball_y = roz_Y / 2
+        soccer_ball_speed_x = random.randint(-3,3)
+        soccer_ball_speed_y = soccer_ball_speed_x        
+    text2 = str(counter2).rjust(3)
+    text3 = str(counter3).rjust(3)
+
+
+
+
+    okno.blit(font.render(text, True, (0, 0, 0)), (roz_X / 2 - 60, 48)) 
+    okno.blit(font.render(text2, True, (255, 0, 0)), (roz_X / 2 , 48)) 
+    okno.blit(font.render(text3, True, (0, 0, 255)), (roz_X / 2 - 180, 48)) 
     pygame.draw.rect(okno, (0,0,0), (roz_X - 280, roz_Y - 100, 140, 50),2)
     gradientRect( okno, (255, 255, 0), (255, 0, 0), pygame.Rect( roz_X - 278,roz_Y - 98, boost2, 46 ) )
 
     pygame.draw.rect(okno, (0,0,0), (140 ,roz_Y - 100, 140, 50),2)
     gradientRect( okno, (255, 255, 0), (255, 0, 0), pygame.Rect(142,roz_Y - 98, boost1, 46 ) )
 
-    pygame.draw.rect(okno, (255,0,0), (roz_X - 7, roz_Y / 2 - 100,7,200 ))
+    pygame.draw.rect(okno, (255,0,0), (roz_X - 7,0,7,1080))
     
     pygame.draw.circle(okno,(255,255,0), (dotX1, dotY1), dot_radius1)
     
-    pygame.draw.rect(okno, (0,0,255), (0, roz_Y / 2 - 100,7,200 ))
+    pygame.draw.rect(okno, (0,0,255), (0, 0,7,1080))
     pygame.draw.circle(okno, (255,255,255), (soccer_ball_x, soccer_ball_y), soccer_ball_radius)
     pygame.display.update()
     hodiny.tick(FPS)
