@@ -21,7 +21,12 @@ FPS = 120
 okno = pygame.display.set_mode((roz_X, roz_Y))
 pygame.time.set_timer(pygame.USEREVENT, 1000)
 font = pygame.font.SysFont('Consolas', 60)
-counter, text = 120, '120'.rjust(3)
+font1 = pygame.font.SysFont('freesanbold.ttf', 200)
+text1 = font1.render('Modrý vyhrál', True, (0, 0, 255))
+text7 = font1.render('Remíza', True, (0, 255, 255))
+
+text8 = font1.render('Červený vyhrál', True, (255, 0, 0))
+counter, text = 60, '60'.rjust(3)
 time1 = 99999999999999999999999999999999999999999999999999
 time2 = 99999999999999999999999999999999999999999999999999
 counter2 = 0
@@ -220,7 +225,16 @@ while True:
         soccer_ball_speed_y = soccer_ball_speed_x        
     text2 = str(counter2).rjust(3)
     text3 = str(counter3).rjust(3)
+    if counter == 0:
+        counter = 0
+    if counter == 0 and counter2 < counter3:
+        okno.blit(text1, (roz_X / 2 - 400, roz_Y / 2))
 
+    if counter == 0 and counter2 > counter3:
+        okno.blit(text8, (roz_X / 2 - 400, roz_Y / 2))
+
+    if counter == 0 and counter2 == counter3 :
+        okno.blit(text7, (roz_X / 2 - 400, roz_Y / 2))
 
 
 
