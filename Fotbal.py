@@ -65,7 +65,7 @@ while True:
     for udalost in pygame.event.get():
         if udalost.type == pygame.USEREVENT:
             counter -= 1
-            text = str(counter).rjust(3) if counter > 0 else 'Game over'
+            text = str(counter).rjust(3) if counter > 0 else 'Konec'
         if udalost.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
@@ -100,9 +100,10 @@ while True:
         
     if keys[pygame.K_RSHIFT] and boost2 > 0.3:
         rychlost2 *= 1.019
-        boost2 -= 0.3
+        boost2 -= 0.5
     if keys[pygame.K_RSHIFT] == False or boost2 < 0.4 :
         rychlost2 *= 0.99
+        boost2 += 0.03
     if rychlost2 <= 1:
         rychlost2 = 1
     if rychlost2 >= 10:
@@ -116,6 +117,7 @@ while True:
         boost1 -= 0.3
     if keys[pygame.K_LSHIFT] == False or boost1 < 0.4 :
         rychlost1 *= 0.99
+        boost1 += 0.03
     if rychlost1 <= 1:
         rychlost1 = 1
     if rychlost1 >= 10:
@@ -227,20 +229,21 @@ while True:
     text3 = str(counter3).rjust(3)
     if counter == 0:
         counter = 0
-    if counter == 0 and counter2 < counter3:
-        okno.blit(text1, (roz_X / 2 - 400, roz_Y / 2))
+    if counter <= 0 and counter2 < counter3:
+        okno.blit(text1, (roz_X / 2 - 400, roz_Y / 2 - 100))
 
-    if counter == 0 and counter2 > counter3:
-        okno.blit(text8, (roz_X / 2 - 400, roz_Y / 2))
+    if counter <= 0 and counter2 > counter3:
+        okno.blit(text8, (roz_X / 2 - 400, roz_Y / 2 - 100))
 
-    if counter == 0 and counter2 == counter3 :
-        okno.blit(text7, (roz_X / 2 - 400, roz_Y / 2))
+    if counter <= 0 and counter2 == counter3 :
+        okno.blit(text7, (roz_X / 2 - 240, roz_Y / 2 - 100))
 
+    if counter < -2:
+        pygame.quit()
 
-
-    okno.blit(font.render(text, True, (0, 0, 0)), (roz_X / 2 - 60, 48)) 
-    okno.blit(font.render(text2, True, (255, 0, 0)), (roz_X / 2 , 48)) 
-    okno.blit(font.render(text3, True, (0, 0, 255)), (roz_X / 2 - 180, 48)) 
+    okno.blit(font.render(text, True, (0, 0, 0)), (roz_X / 2 - 70, 48)) 
+    okno.blit(font.render(text2, True, (255, 0, 0)), (roz_X / 1.5 , 48)) 
+    okno.blit(font.render(text3, True, (0, 0, 255)), (roz_X / 4 , 48)) 
     pygame.draw.rect(okno, (0,0,0), (roz_X - 280, roz_Y - 100, 140, 50),2)
     gradientRect( okno, (255, 255, 0), (255, 0, 0), pygame.Rect( roz_X - 278,roz_Y - 98, boost2, 46 ) )
 
